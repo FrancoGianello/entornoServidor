@@ -1,0 +1,30 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+.pater{
+    margin: auto;
+    width: 100vw;
+    height: 80vh;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 2px;
+}
+.cosa{
+    background-color: transparent;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
+#numero{
+    height: 20vh;
+    width:100vw;
+    background-color: rgb(238, 187, 146);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+}

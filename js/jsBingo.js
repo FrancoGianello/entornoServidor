@@ -7,7 +7,7 @@ let cantado = document.getElementById("numero").value;
 let mio = document.getElementsByClassName("cosa").value;
 function comprobar(){
     if(mio==cantado){
-        document.getElementsByClassName("cosa").style.setProperty('background-color', 'red');
+        // document.getElementsByClassName("cosa").style.setProperty('background-color', 'red');
         generarNumero();
     }
 }
