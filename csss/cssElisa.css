@@ -1,0 +1,21 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+.max{
+    margin: auto;
+    width: 100vw;
+    height: 80vh;
+    display: grid;
+    grid-template-columns: repeat(9,1fr);
+    gap: 2px;
+}
+.cosa{
+    background-color: transparent;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
