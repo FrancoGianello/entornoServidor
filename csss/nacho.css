@@ -1,0 +1,32 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.pater{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+}
+.pater>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.oto{
+    background-color: rgb(226, 134, 134);
+}
+.bru{
+    background-color: rgb(130, 130, 225);
+}
+.gah{
+    background-color: rgb(233, 233, 134);
+}
+.lunes, .miercoles, .viernes{
+    background-color: aquamarine;
+}
+.martes, .jueves{
+    background-color: beige;
+}
