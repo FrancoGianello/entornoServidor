@@ -65,13 +65,10 @@ function arrayTipos(...$valores)
                     $valor = $valor * -1;
                     break;
             case 'string':
-                for ($i=0; $i < strlen($valor); $i++) { 
+                for ($i=0; $i < strlen($valor); $i++) 
                     (ctype_upper($valor[$i]))?$valor[$i]=strtolower($valor[$i]) : $valor[$i]=strtoupper($valor[$i]);
-                }
                 break;
-                    
             default:
-                
                 break;
         }
     }
@@ -92,4 +89,37 @@ mostrar(arrayRandom(4));
 mostrar(arrayRandom(4, 100, 10));
 //ejercicio 11
 mostrar(arrayTipos(20, 5, 3.1, "hoLazzaaZ", 3, -10.1));
+
+
+//ejercicio 12
+$info =[
+    "nombre" => "Francis",
+    "dirección" => "Calle santa",
+    "teléfono" => "6666",
+    "edad"=> 23,
+];
+function formatFormUser(array $user)
+{
+    echo '<form id="datos" action="post">';
+    //<input name='key' value='value' type='text|number'/> 
+    array_walk($user, function($value, $key){
+    $tipo=(is_integer($value))?'number':'text';
+    echo "<input name='$key' value='$value' type='$tipo'/>";
+    });
+    echo '</form>';
+}
+
+formatFormUser($info);
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
