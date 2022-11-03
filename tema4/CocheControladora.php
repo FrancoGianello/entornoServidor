@@ -3,7 +3,7 @@
     require('./Coche.php');
     require('./CocheConRemolque.php');
     require('./CocheGrua.php');
-
+    require('./Singleton.php');
     $coches = [];
 
     $coche1 = new Coche("1000", "BMW", 30);
@@ -20,6 +20,9 @@
         print "<div>".$value->pintarInformacion()."</div>";
     });
 
+    $single = Unico::singleton();
+    $single->setNombre("hola");
+    echo $single->getNombre();
 
 ?>
 <!DOCTYPE html>
