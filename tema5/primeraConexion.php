@@ -1,31 +1,56 @@
-
 <?php
-
-try {
-    $mbd = new PDO('mysql:host=localhost;dbname=mi_primer_db', "franco", "1234");
-
+    require("./accesoBD.php");
+    if(isset($_POST["crear"])){
+        //Consulta auxiliar
+        (comprobarSiIdExiste($mbd))? update($mbd): insertar($mbd);
+    }
     // Utilizar la conexión aquí
-    $resultado = $mbd->query('SELECT * FROM Ciclistas');
-    echo "<div class='padre'>";
-    $primeraFila =true;
-    foreach ($resultado as $fila){
-      foreach ($fila as $clave => $valor){
-        if($primeraFila) foreach ($fila as $key => $value)if(!is_numeric($key)) echo "<div>".$key."</div>";
-        if(!is_numeric($clave))echo "<div> " . $valor . "</div>";
-        $numeroFilas = count($fila);
-        $primeraFila=false;
+    if(isset($_GET["ordenar"])){
+        //Consulta auxiliar
+        $resultadoAux = $mbd->query('SELECT * FROM Ciclistas');
+        $resultadoAux->setFetchMode(PDO::FETCH_ASSOC);
+        foreach ($resultadoAux as $fila)$columna = array_search($_GET["ordenar"], array_keys($fila))+1;
+        $resultado = $mbd->prepare('SELECT * FROM Ciclistas ORDER BY :orden ASC');
+        // $resultado = $mbd->prepare('SELECT * FROM Ciclistas ORDER BY :orden :numerico');
+        $resultado->bindValue(':orden', $columna, PDO::PARAM_INT);
+        // if(is_numeric($_GET["ordenar"]))$resultado->bindValue(':numerico', "ASC");
+    }
+    else $resultado = $mbd->prepare('SELECT * FROM Ciclistas');
+    $resultado->setFetchMode(PDO::FETCH_ASSOC);
+    $resultado->execute();
+
+
+    function comprobarSiIdExiste($mbd){
+        $resultadoAux = $mbd->query('SELECT * FROM Ciclistas');
+        $resultadoAux->setFetchMode(PDO::FETCH_ASSOC);
+        $idExiste=false;
+        foreach ($resultadoAux as $fila) {
+            foreach ($fila as $key => $value) {
+                if($key=="id" && $value==$_POST["id"]) $idExiste=true;
+            }
         }
-    }  
-    echo "</div>";
-    // Ya se ha terminado; se cierra
-    $resultado = null;
-    $mbd = null;
-
-} catch (PDOException $e) {
-    print "¡Error!: " . $e->getMessage() . "\n";
-    die();
-}
-
+        return $idExiste;
+    }
+    function insertar($mbd){
+        $insertar = $mbd->prepare('INSERT INTO Ciclistas (id, nombre, num_trofeos) VALUES(:id, :nombre, :trofeos)');
+        $id = $_POST['id'];
+        $nombre = $_POST['nombre'];
+        $trofeos = $_POST['num_trofeos'];
+        $insertar->bindParam(":id", $id);
+        $insertar->bindParam(":nombre", $nombre);
+        $insertar->bindParam(":trofeos", $trofeos);
+        $insertar->execute();
+    }
+    function update($mbd){
+        $cambiar = $mbd->prepare('UPDATE Ciclistas SET nombre=:nombre, num_trofeos=:trofeos WHERE id=:id');
+        $id = $_POST['id'];
+        $nombre = $_POST['nombre'];
+        $trofeos = $_POST['num_trofeos'];
+        $cambiar->bindParam(":id", $id);
+        $cambiar->bindParam(":nombre", $nombre);
+        $cambiar->bindParam(":trofeos", $trofeos);
+        $cambiar->execute();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +59,7 @@ try {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <style>
         *{
             padding:0px;
@@ -43,7 +69,7 @@ try {
             width:100vw;
             height:100vh;
             display:grid;
-            grid-template-columns: repeat(<?php echo $numeroFilas/2?>, 1fr);
+            grid-template-columns: repeat(2 ,1fr);
         }
         .padre>div{
             border:1px solid black;
@@ -52,13 +78,45 @@ try {
             align-items:center;
             font-size:20px;
         }
-        .padre div:nth-child(1), .padre div:nth-child(2), .padre div:nth-child(3){
+        .cabeza{
             background-color:grey;
-
+        }
+        .añadir{
+            grid-column: 1 / 3;
         }
     </style>
 </head>
 <body>
-    
+    <div class="padre">
+        <?php
+        $primeraFila =true;
+        foreach ($resultado as $fila){
+            if($primeraFila) foreach ($fila as $key => $value)if($key!="id")echo '<div class="cabeza"><p>'.$key.' </p><form method="GET"action="" ><input type="submit" value="'.$key.'" name="ordenar"></form></div>';
+            $primeraFila=false;
+            $numeroFilas = count($fila)-1;
+            $id=$fila["id"];
+            if($key!="id"){
+                echo '<div> <a href="detalle.php?id='.$id.'">'.$fila["nombre"].'</a></div>';
+                echo '<div>';
+                for ($i=0; $i < $fila["num_trofeos"]; $i++) { 
+                    echo  "<i class='fa-solid fa-trophy'></i>";
+                }
+                echo "(".$fila["num_trofeos"].')</div>';
+                }
+            }
+            // Ya se ha terminado; se cierra
+            $resultado = null;
+            $mbd = null;
+        ?>
+        <div class="añadir">
+            <p>Añadir nuevo ciclista </p>
+            <form action="" method="POST">
+                <input type="number" required name="id" id="idCiclista"></input>
+                <input type="text" required name="nombre" id="nombreCiclista"></input>
+                <input type="number"required  name="num_trofeos" id="trofeosCiclista"></input>
+                <input type="submit" value="crear" name="crear">
+            </form>
+        </div>
+    </div>
 </body>
 </html>
