@@ -83,6 +83,8 @@
         }
         .añadir{
             grid-column: 1 / 3;
+            display:flex;
+            gap:20px;
         }
     </style>
 </head>
@@ -109,11 +111,11 @@
             $mbd = null;
         ?>
         <div class="añadir">
-            <p>Añadir nuevo ciclista </p>
+            <p>AÑADIR CICLISTA: </p>
             <form action="" method="POST">
-                <input type="number" required name="id" id="idCiclista"></input>
-                <input type="text" required name="nombre" id="nombreCiclista"></input>
-                <input type="number"required  name="num_trofeos" id="trofeosCiclista"></input>
+                ID<input type="number" required name="id" id="idCiclista">
+                Nombre<input type="text" required name="nombre" id="nombreCiclista">
+                Trofeos<input type="number"required  name="num_trofeos" id="trofeosCiclista">
                 <input type="submit" value="crear" name="crear">
             </form>
         </div>
