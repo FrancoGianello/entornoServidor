@@ -2,8 +2,6 @@
 session_start();
 require("accesoBD.php");
 
-
-
 function clean_input($data) {
   $data = trim($data);
   $data = stripslashes($data);
@@ -21,7 +19,6 @@ if(isset($_GET["url"])){
 }else if(isset($_POST["url"])){
   $url = $_POST["url"];
 }
-
 
 if(isset($_POST["submit"])) {
     if(isset($_POST["login"])){
