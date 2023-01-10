@@ -1,8 +1,8 @@
 <?php
 session_start();
 include("./varPaginaAnterior.php");
-include("./PostForo.php");
-include("./PostForoPerfil.php");
+include("./clases/PostForo.php");
+include("./clases/PostForoPerfil.php");
 
 $username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 $perfil ="";

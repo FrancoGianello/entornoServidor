@@ -10,7 +10,7 @@ function pintarTemas(){
     $consulta->execute();
     foreach ($consulta as $value){
         echo "<div class='tema'>";
-        echo "<h2><a href='tema.php?TEMA_NOMBRE=".$value['TEMA_NOMBRE']."'>". $value['TEMA_NOMBRE']."</a></h2>";
+        echo "<h2 ><a class='titulo' href='tema.php?TEMA_NOMBRE=".$value['TEMA_NOMBRE']."'>". $value['TEMA_NOMBRE']."</a></h2>";
         echo "<p>".$value['DESCRIPCION']."</p>";
         echo "</div>";
     }
@@ -32,11 +32,35 @@ $bienvenida = ($username!="")? $username:"ANONIMO";
             padding:0px;
             box-sizing:border-box;
         }
+        a{
+            text-decoration:none;
+        }
         .main{
             height:100vh;
             width:100vw;
             display:grid;
             grid-template-rows:1fr 10fr 1fr;
+        }
+        header{
+            border-bottom:1px solid black;
+            color:white;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-flow: column;
+        }
+        .nav, header{
+            text-align:center;
+            background-color:black;
+        }
+        .nav>a{
+            color:white;
+        }
+        .nav{
+            border-top:1px solid black;
+            display:flex;
+            justify-content:space-evenly;
+            align-items:center;
         }
         .temas{
             display:grid;
@@ -49,14 +73,12 @@ $bienvenida = ($username!="")? $username:"ANONIMO";
             align-items:center;
             flex-flow:column;
         }
-        .nav, .encabezado{
-            border:1px solid black;
-            text-align:center;
+        .titulo{
+            color:black;
+            transition: all 0.1s ease-in;
         }
-        .nav{
-            display:flex;
-            justify-content:space-evenly;
-            align-items:center;
+        .titulo:hover{
+            color:red;
         }
     </style>
 </head>

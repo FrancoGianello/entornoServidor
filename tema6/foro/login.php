@@ -3,8 +3,11 @@ session_start();
 include("./accesoBD.php");
 include("./varPaginaAnterior.php");
 include("./funcionLimpiar.php");
+//variable de session
+$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 
-$user = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
+//variable para el post
+$user="";
 $pass ="";
 $url ="";
 $listaError=[];
@@ -50,13 +53,13 @@ if(isset($_POST["submit"])){
             </header>
             <div class="formulario">
                 <form method="post">
-                    USERNAME
+                    <h2 class="titulos">USERNAME</h2>
                     <input type="text" name="username" id="username" value="<?= $user?>">
-                    <p><?php if(isset($listaError["usuario"]))echo $listaError["usuario"];?></p>
-                    PASSWORD
+                    <?php if(isset($listaError["usuario"]))echo "<p>".$listaError["usuario"]."</p>";?>
+                    <h2 class="titulos">PASSWORD</h2>
                     <input type="text" name="pass" id="pass" value="<?= $pass?>">
-                    <p><?php if(isset($listaError["pass"]))echo $listaError["pass"];?></p>
-                    <input type="submit" value="enviar" name="submit">
+                    <?php if(isset($listaError["pass"])) echo "<p>".$listaError["pass"]."</p>";?>
+                    <input type="submit" class="submit" value="enviar" name="submit">
                 </form>
             </div>
         <?php include("./navegador.php"); ?>

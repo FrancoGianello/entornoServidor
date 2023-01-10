@@ -2,8 +2,8 @@
 session_start();
 include("./varPaginaAnterior.php");
 include("./funcionLimpiar.php");
-include("./PostForo.php");
-include("./PostForoDetalle.php");
+include("./clases/PostForo.php");
+include("./clases/PostForoDetalle.php");
 
 $username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 
