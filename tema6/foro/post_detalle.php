@@ -1,8 +1,9 @@
 <?php
 session_start();
 include("./varPaginaAnterior.php");
-include("./accesoBD.php");
 include("./funcionLimpiar.php");
+include("./PostForo.php");
+include("./PostForoDetalle.php");
 
 $username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 
@@ -14,64 +15,25 @@ if(isset($_GET["ID_POST"])&& $_GET["ID_POST"]!=""){
     die();
 }
 
-function contarNumeros($id){
-    include("./accesoBD.php");
-    $contarNumeros = $mbd->prepare("SELECT COUNT(*) as RESULTADO FROM COMMENT WHERE ID_POST = :ID");
-    $contarNumeros->bindValue(":ID", $id);
-    $contarNumeros->setFetchMode(PDO::FETCH_ASSOC);
-    $contarNumeros->execute();
-    $contarNumeros = $contarNumeros->fetch();
-    return $contarNumeros["RESULTADO"];
-}
-
-function pintarPost($id){
+function pintarPostComentarios($id){
     include("./accesoBD.php");
     $consulta = $mbd->prepare("SELECT * FROM POST WHERE ID_POST = :ID_POST");
     $consulta->setFetchMode(PDO::FETCH_ASSOC);
     $consulta->bindValue(":ID_POST", $id);
     $consulta->execute();
-    $cadena="";
-    foreach ($consulta as $value) {
-        $cadena .= "<div class='post'>";
-        $cadena .= "<h2>".$value["TITULO"]."</h2>";
-        $cadena .= "<h4>Usuario: <a href='perfil.php?USERNAME=".$value["USERNAME"]."' >".$value["USERNAME"]."</a></h4>";
-        $cadena .= "<h4>ID_post:".$value["ID_POST"]."</h4>";
-        $cadena .= "<h4>Tema: <a href='tema.php?TEMA_NOMBRE=".$value["TEMA_NOMBRE"]."' >".$value["TEMA_NOMBRE"]."</a></h4>";
-        $cadena .= "<p>".$value["CONTENIDO"]."</p>";
-        $cadena .= "<p>Comentarios: ".contarNumeros($value["ID_POST"])."</p>";
-        $cadena .= "</div>";
-    }
-    return $cadena;
+    $consulta = $consulta->fetch();
+    $objeto = new PostForoDetalle($consulta["ID_POST"], $consulta["CONTENIDO"], $consulta["TITULO"], $consulta["TEMA_NOMBRE"], $consulta["USERNAME"]);
+    $objeto->pintarObjetos();
+    $objeto->pintarComentarios();
 }
-
-function pintarComentarios($id){
-    include("./accesoBD.php");
-    $consultaAux = $mbd->prepare("SELECT * FROM COMMENT WHERE ID_POST = :ID");
-    $consultaAux->bindValue(":ID", $id);
-    $consultaAux->setFetchMode(PDO::FETCH_ASSOC);
-    $consultaAux->execute();
-    $cadena ="";
-    foreach ($consultaAux as $value) {
-        $cadena .= "<div class='comment'>";
-        $cadena .= "<h4>Usuario: <a href='perfil.php?USERNAME=".$value["USERNAME"]."' >".$value["USERNAME"]."</a></h4>";
-        $cadena .= "<p>".$value["CONTENIDO"]."</p>";
-        $cadena .= "</div>";
-    }
-    return $cadena;
-}
-
 
 //seccion de la inserccion
 $contenido = (isset($_POST["add_contenido"]))? $_POST["add_contenido"]:"";
 if(isset($_POST["submit"])){
     $contenido = clean_input($contenido);
     if($contenido!="" ){
-        $inserccion = $mbd->prepare("INSERT INTO COMMENT(ID_POST, CONTENIDO, USERNAME) VALUES(:ID_POST, :CONTENIDO, :USERNAME)");
-        $inserccion->bindValue(":ID_POST", $id);
-        $inserccion->bindValue(":CONTENIDO", $contenido);
-        $inserccion->bindValue(":USERNAME", $username);
-        $inserccion->execute();
-        //resetear valores y el POST. Pues ya se ha hecho un comentario satisfactorio, no necesito guardar los datos nuevamente en el formulario
+        $objeto->insertarComentario($contenido, $username);
+        //resetear valores y el POST.
         $contenido ="";
         $_POST=array();
     }
@@ -93,8 +55,8 @@ if(isset($_POST["submit"])){
         </header>
         <div class="posts">
             <?php 
-                echo pintarPost($id);
-                echo pintarComentarios($id);
+                pintarPostComentarios($id);
+                
             ?>
             <div class="comment add">
                 <h3>Añadir comentario al post</h3>

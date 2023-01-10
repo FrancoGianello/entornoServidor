@@ -1,6 +1,8 @@
 <?php
 session_start();
 include("./varPaginaAnterior.php");
+include("./PostForo.php");
+include("./PostForoPerfil.php");
 
 $username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 $perfil ="";
@@ -10,16 +12,6 @@ if(isset($_GET["USERNAME"])&& $_GET["USERNAME"]!=""){
     header("Location: index.php");
     die();
 }
-function contarNumeros($id){
-    include("./accesoBD.php");
-    $contarNumeros = $mbd->prepare("SELECT COUNT(*) as RESULTADO FROM COMMENT WHERE ID_POST = :ID");
-    $contarNumeros->bindValue(":ID", $id);
-    $contarNumeros->setFetchMode(PDO::FETCH_ASSOC);
-    $contarNumeros->execute();
-    $contarNumeros = $contarNumeros->fetch();
-    return $contarNumeros["RESULTADO"];
-}
-
 function pintarPost($perfil){
     include("./accesoBD.php");
     $consulta = $mbd->prepare("SELECT * FROM POST WHERE USERNAME=:USERNAME");
@@ -27,13 +19,8 @@ function pintarPost($perfil){
     $consulta->execute();
     $cadena="";
     foreach ($consulta as $value) {
-        $cadena .= "<div class='post'>";
-        $cadena .= "<h2>".$value["TITULO"]."</h2>";
-        $cadena .= "<h4>Tema: <a href='tema.php?TEMA_NOMBRE=".$value["TEMA_NOMBRE"]."' >".$value["TEMA_NOMBRE"]."</a></h4>";
-        $cadena .= "<h4>id_post:".$value["ID_POST"]."</h4>";
-        $cadena .= "<p>".$value["CONTENIDO"]."</p>";
-        $cadena .= "<a href='post_detalle.php?ID_POST=".$value["ID_POST"]."' >Comentarios: ".contarNumeros($value["ID_POST"])."</a>";
-        $cadena .= "</div>";
+        $objeto = new PostForoPerfil($value["ID_POST"], $value["CONTENIDO"], $value["TITULO"], $value["TEMA_NOMBRE"]);
+        $objeto->pintarObjetos();
     }
     return $cadena;
 }

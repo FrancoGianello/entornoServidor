@@ -4,32 +4,32 @@ include("./accesoBD.php");
 include("./varPaginaAnterior.php");
 include("./funcionLimpiar.php");
 
-$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
+$user = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 $pass ="";
 $url ="";
 $listaError=[];
 if(isset($_POST["submit"])){
     if(isset($_POST["username"]) && isset($_POST["pass"])){
         //inicializar usuario
-        $username = $_POST["username"];
-        $username = clean_input($username);
+        $user = $_POST["username"];
+        $user = clean_input($user);
         $pass = $_POST["pass"];
         $pass = clean_input($pass);
         //consulta con el usuario
         $consulta = $mbd->prepare("SELECT * FROM USER WHERE USERNAME = :USERNAME");
-        $consulta->bindValue(":USERNAME", $username);
+        $consulta->bindValue(":USERNAME", $user);
         $consulta->execute();
         $consulta = $consulta->fetch();
         if($consulta!=""){
             if(password_verify($pass, $consulta['PASS'])){
-                $_SESSION["user"]=$username;
+                $_SESSION["user"]=$user;
                 header("Location: ".$paginaAnterior);
             }
             else 
-            array_push($listaError, "Contraseña incorrecta");
+            $listaError["pass"] = "Contraseña incorrecta";
         }
         else  
-        array_push($listaError, "Usuario no existe");
+        $listaError["usuario"] = "Usario no existe";
     }
 }
 
@@ -51,9 +51,11 @@ if(isset($_POST["submit"])){
             <div class="formulario">
                 <form method="post">
                     USERNAME
-                    <input type="text" name="username" id="username" value="<?= $username?>">
+                    <input type="text" name="username" id="username" value="<?= $user?>">
+                    <p><?php if(isset($listaError["usuario"]))echo $listaError["usuario"];?></p>
                     PASSWORD
                     <input type="text" name="pass" id="pass" value="<?= $pass?>">
+                    <p><?php if(isset($listaError["pass"]))echo $listaError["pass"];?></p>
                     <input type="submit" value="enviar" name="submit">
                 </form>
             </div>
