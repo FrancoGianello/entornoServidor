@@ -9,9 +9,11 @@ function pintarTemas(){
     $consulta->setFetchMode(PDO::FETCH_ASSOC);
     $consulta->execute();
     foreach ($consulta as $value){
-        echo "<div class='tema'>";
-        echo "<h2 ><a class='titulo' href='tema.php?TEMA_NOMBRE=".$value['TEMA_NOMBRE']."'>". $value['TEMA_NOMBRE']."</a></h2>";
+        echo "<div style=' background-image: url"."(./images/".$value["TEMA_NOMBRE"].".jpg)"."' class='tema ".$value['TEMA_NOMBRE']."'>";
+        echo "<div class='texto'>";
+        echo "<h2 ><a class='titulo ' href='tema.php?TEMA_NOMBRE=".$value['TEMA_NOMBRE']."'>". $value['TEMA_NOMBRE']."</a></h2>";
         echo "<p>".$value['DESCRIPCION']."</p>";
+        echo "</div>";
         echo "</div>";
     }
 }
@@ -34,6 +36,11 @@ $bienvenida = ($username!="")? $username:"ANONIMO";
         }
         a{
             text-decoration:none;
+            color:white;
+            transition: all 0.1s ease-in;
+        }
+        a:hover{
+            color:red;
         }
         .main{
             height:100vh;
@@ -53,9 +60,6 @@ $bienvenida = ($username!="")? $username:"ANONIMO";
             text-align:center;
             background-color:black;
         }
-        .nav>a{
-            color:white;
-        }
         .nav{
             border-top:1px solid black;
             display:flex;
@@ -73,19 +77,25 @@ $bienvenida = ($username!="")? $username:"ANONIMO";
             align-items:center;
             flex-flow:column;
         }
-        .titulo{
-            color:black;
-            transition: all 0.1s ease-in;
+        .texto{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-flow:column;
+            background: rgba(0, 0, 0, 0.5);
+            width:50%;
         }
-        .titulo:hover{
-            color:red;
+        .texto>*{
+            color:white;
+        }
+        .nav>a{
+            font-size: 24px;
         }
     </style>
 </head>
 <body>
     <main class="main">
         <header class="encabezado">
-            <h1>INICIO</h1>
             <h1>BIENVENIDO <?=$bienvenida ?></h1>
         </header>
         <div class="temas">

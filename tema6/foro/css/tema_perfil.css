@@ -2,16 +2,23 @@
     margin:0px;
     padding:0px;
     box-sizing:border-box;
+    word-break: break-all;
 }
 .main{
     min-height:100vh;
-    width:100vw;
+    max-width:100vw;
     display:grid;
-    grid-template-rows:1fr 12fr 1fr;
-    background-color: rgb(103, 0, 0);
+    grid-template-rows:1fr 10fr 1fr;
+    background-color: rgb(100, 176, 149);
+    gap: 5px;
 }
 a{
-    text-decoration:none;
+    text-decoration: none;
+    color:white;
+    transition: all 0.1s ease-in;
+}
+a:hover{
+    color:red;
 }
 header{
     border-bottom:1px solid black;
@@ -29,7 +36,7 @@ header, .post>h2, .nav{
     background-color:black;
 }
 .nav>a{
-    color:white;
+    font-size: 24px;
 }
 .nav{
     border-top:1px solid black;
@@ -40,18 +47,21 @@ header, .post>h2, .nav{
 .posts{
     width:60%;
     margin:0 auto;
+    display: grid;
+    grid-template-rows: 70% 30%;
 }
 .post, .comment{
-    margin-top:10px;
-    width:100%;
-    border:1px solid black;
     padding:8px;
+    margin-bottom:5px;
 }
 .post{
-    background-color: grey;
+    border:1px solid black;
+    background-color: rgb(174, 171, 171);
+    width:100%;
 }
 .comment{
     background-color: cadetblue;
+    border: 1px solid black;
 }
 form{
     display:flex;
@@ -63,4 +73,22 @@ form{
     justify-content:center;
     align-items:center;
     flex-flow: column;
+}
+.paginacion{
+    width: 100%;
+    border: 1px solid black;
+    border-bottom: none;
+    background-color: black;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.paginacion>.botones{
+    width: 50px;
+    text-align: center;
+    background-color: white;
+    color:black;
+}
+.paginacion>h3{
+    color: white;
 }

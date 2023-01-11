@@ -5,12 +5,18 @@
 }
 a{
     text-decoration: none;
+    color:white;
+    transition: all 0.1s ease-in;
+}
+a:hover{
+    color:red;
 }
 .main{
     min-height:100vh;
     width:100vw;
     display:grid;
-    grid-template-rows:1fr 12fr 1fr;
+    grid-template-rows:1fr 10fr 1fr;
+    background-color: rgb(100, 176, 149);
 }
 header{
     border-bottom:1px solid black;
@@ -28,7 +34,7 @@ header, .post>h2, .nav{
     background-color:black;
 }
 .nav>a{
-    color:white;
+    font-size: 24px;
 }
 .nav{
     border-top:1px solid black;

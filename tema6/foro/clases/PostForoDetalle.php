@@ -18,10 +18,11 @@ class PostForoDetalle extends PostForo
         echo "<p>Comentarios: ".$this->contarNumeros($this->ID_post)."</p>";
         echo "</div>";
     }
-    function pintarComentarios(){
+    function pintarComentarios($pagina){
         include("./accesoBD.php");
-        $consultaAux = $mbd->prepare("SELECT * FROM COMMENT WHERE ID_POST = :ID");
+        $consultaAux = $mbd->prepare("SELECT * FROM COMMENT WHERE ID_POST = :ID ORDER BY ID_COMMENT DESC LIMIT :PAGINA, 4");
         $consultaAux->bindValue(":ID", $this->ID_post);
+        $consultaAux->bindValue(":PAGINA", ($pagina*4), PDO::PARAM_INT);
         $consultaAux->setFetchMode(PDO::FETCH_ASSOC);
         $consultaAux->execute();
         foreach ($consultaAux as $value) {

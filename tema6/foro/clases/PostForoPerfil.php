@@ -10,7 +10,6 @@ class PostForoPerfil extends PostForo
             echo "<div class='post'>";
             echo "<h2>".$this->titulo."</h2>";
             echo "<h4>Tema: <a href='tema.php?TEMA_NOMBRE=".$this->tema."' >".$this->tema."</a></h4>";
-            echo "<h4>ID_post:".$this->ID_post."</h4>";
             echo "<p>".$this->contenido."</p>";
             echo "<a href='post_detalle.php?ID_POST=".$this->ID_post."' >Comentarios: ".$this->contarNumeros($this->ID_post)."</a>";
             echo "</div>";

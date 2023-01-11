@@ -57,7 +57,7 @@ if(isset($_POST["submit"])){
                     <input type="text" name="username" id="username" value="<?= $user?>">
                     <?php if(isset($listaError["usuario"]))echo "<p>".$listaError["usuario"]."</p>";?>
                     <h2 class="titulos">PASSWORD</h2>
-                    <input type="text" name="pass" id="pass" value="<?= $pass?>">
+                    <input type="password" name="pass" id="pass" value="<?= $pass?>">
                     <input type="submit" class="submit" value="enviar" name="submit">
                 </form>
             </div>
