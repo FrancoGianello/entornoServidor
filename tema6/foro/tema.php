@@ -1,7 +1,6 @@
 <?php
 session_start();
-include("./varPaginaAnterior.php");
-include("./funcionLimpiar.php");
+require("./src/init.php");
 include("./clases/PostForo.php");
 include("./clases/PostForoTema.php");
 
@@ -17,18 +16,16 @@ if(isset($_GET["TEMA_NOMBRE"])&& $_GET["TEMA_NOMBRE"]!=""){
 }
 
 function mostrarPosts($tema, $pagina){
-    include("./accesoBD.php");
+    require("./accesoBD.php");
     $consulta = $mbd->prepare("SELECT * FROM POST WHERE TEMA_NOMBRE = :TEMA_NOMBRE ORDER BY ID_POST DESC LIMIT :PAGINA, 4");
     $consulta->setFetchMode(PDO::FETCH_ASSOC);
     $consulta->bindValue(":TEMA_NOMBRE", $tema);
     $consulta->bindValue(":PAGINA", ($pagina*4), PDO::PARAM_INT);
     $consulta->execute();
-    $cadena="";
     foreach ($consulta as $value) {
         $post = new PostForoTema($value["ID_POST"], $value["CONTENIDO"], $value["TITULO"], $value["USERNAME"]);
         $post->pintarObjetos();
     }
-    return $cadena;
 }
 
 //seccion inserccion

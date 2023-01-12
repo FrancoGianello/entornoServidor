@@ -1,8 +1,6 @@
 <?php
 session_start();
-include("./accesoBD.php");
-include("./varPaginaAnterior.php");
-include("./funcionLimpiar.php");
+require("./src/init.php");
 //variable de session
 $username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 

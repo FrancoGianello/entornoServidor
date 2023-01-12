@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("./varPaginaAnterior.php");
+require("./src/init.php");
 include("./clases/PostForo.php");
 include("./clases/PostForoPerfil.php");
 
@@ -15,7 +15,7 @@ if(isset($_GET["USERNAME"])&& $_GET["USERNAME"]!=""){
     die();
 }
 function mostrarPosts($perfil, $pagina){
-    include("./accesoBD.php");
+    require("./accesoBD.php");
     $consulta = $mbd->prepare("SELECT * FROM POST WHERE USERNAME=:USERNAME ORDER BY ID_POST DESC LIMIT :PAGINA, 4");
     $consulta->bindValue(":USERNAME", $perfil);
     $consulta->bindValue(":PAGINA", ($pagina*4), PDO::PARAM_INT);

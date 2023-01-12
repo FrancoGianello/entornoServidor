@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("./accesoBD.php");
+require("./accesoBD.php");
 include("./varPaginaAnterior.php");
 include("./funcionLimpiar.php");
 //variable de session
@@ -35,7 +35,6 @@ if(isset($_POST["submit"])){
         $listaError["usuario"] = "Usario no existe";
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

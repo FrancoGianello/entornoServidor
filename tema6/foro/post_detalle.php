@@ -1,7 +1,6 @@
 <?php
 session_start();
-include("./varPaginaAnterior.php");
-include("./funcionLimpiar.php");
+require("./src/init.php");
 include("./clases/PostForo.php");
 include("./clases/PostForoDetalle.php");
 
@@ -17,7 +16,7 @@ if(isset($_GET["ID_POST"])&& $_GET["ID_POST"]!=""){
 }
 
 function crearObjetoPost($id){
-    include("./accesoBD.php");
+    require("./accesoBD.php");
     $consulta = $mbd->prepare("SELECT * FROM POST WHERE ID_POST = :ID_POST");
     $consulta->setFetchMode(PDO::FETCH_ASSOC);
     $consulta->bindValue(":ID_POST", $id);
@@ -80,7 +79,8 @@ function pintarBotones($id, $pagina){
                     <h3>Añadir comentario al post</h3>
                     <?php if($username!="" && isset($username)){ ?>
                         <form method="post">
-                        Contenido<textarea name="add_contenido" id="area" cols="20" rows="5" value="<?= $contenido?>"></textarea>
+                            Contenido
+                            <textarea name="add_contenido" id="area" cols="20" rows="5" value="<?= $contenido?>"></textarea>
                             <input type="submit" value="enviar" name="submit">
                         </form>
                     <?php } else {?>
