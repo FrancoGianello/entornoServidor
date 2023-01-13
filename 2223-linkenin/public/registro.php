@@ -11,6 +11,13 @@ if(isset($_POST["submit"])){
     );
     $insertado = $DB->getExecuted();
 }
+if($insertado){
+    Mailer::sendEmail(
+        $_POST["correo"],
+        "NUEVO GAMER",
+        "contenido contenido"
+    );
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
