@@ -1,10 +1,8 @@
 <?php
-session_start();
 require("./src/init.php");
 include("./clases/PostForo.php");
 include("./clases/PostForoTema.php");
 
-$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 $tema ="";
 $pagina=(isset($_GET["PAGINA"]))?$_GET["PAGINA"]:0;
 
@@ -16,12 +14,12 @@ if(isset($_GET["TEMA_NOMBRE"])&& $_GET["TEMA_NOMBRE"]!=""){
 }
 
 function mostrarPosts($tema, $pagina){
-    require("./accesoBD.php");
-    $consulta = $mbd->prepare("SELECT * FROM POST WHERE TEMA_NOMBRE = :TEMA_NOMBRE ORDER BY ID_POST DESC LIMIT :PAGINA, 4");
-    $consulta->setFetchMode(PDO::FETCH_ASSOC);
-    $consulta->bindValue(":TEMA_NOMBRE", $tema);
-    $consulta->bindValue(":PAGINA", ($pagina*4), PDO::PARAM_INT);
-    $consulta->execute();
+    $DB=DWESBaseDatos::obtenerInstancia();
+    $DB->ejecuta(
+        "SELECT * FROM POST WHERE TEMA_NOMBRE = ? ORDER BY ID_POST DESC LIMIT ?, ?", 
+        [$tema, $pagina*DWESBaseDatos::PAGINACION, DWESBaseDatos::PAGINACION]
+    );
+    $consulta = $DB->obtenDatos();
     foreach ($consulta as $value) {
         $post = new PostForoTema($value["ID_POST"], $value["CONTENIDO"], $value["TITULO"], $value["USERNAME"]);
         $post->pintarObjetos();

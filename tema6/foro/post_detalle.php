@@ -1,10 +1,8 @@
 <?php
-session_start();
 require("./src/init.php");
 include("./clases/PostForo.php");
 include("./clases/PostForoDetalle.php");
 
-$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 $pagina=(isset($_GET["PAGINA"]))?$_GET["PAGINA"]:0;
 
 $id="";
@@ -16,13 +14,17 @@ if(isset($_GET["ID_POST"])&& $_GET["ID_POST"]!=""){
 }
 
 function crearObjetoPost($id){
-    require("./accesoBD.php");
-    $consulta = $mbd->prepare("SELECT * FROM POST WHERE ID_POST = :ID_POST");
-    $consulta->setFetchMode(PDO::FETCH_ASSOC);
-    $consulta->bindValue(":ID_POST", $id);
-    $consulta->execute();
-    $consulta = $consulta->fetch();
-    $objeto = new PostForoDetalle($consulta["ID_POST"], $consulta["CONTENIDO"], $consulta["TITULO"], $consulta["TEMA_NOMBRE"], $consulta["USERNAME"]);
+    $DB=DWESBaseDatos::obtenerInstancia();
+    $DB->ejecuta("SELECT * FROM POST WHERE ID_POST = ?", $id);
+    //de [0] porque es un fetchall, cambiar en otro momento
+    $consulta = $DB->obtenDatos()[0];
+    $objeto = new PostForoDetalle(
+        $consulta["ID_POST"], 
+        $consulta["CONTENIDO"], 
+        $consulta["TITULO"], 
+        $consulta["TEMA_NOMBRE"], 
+        $consulta["USERNAME"]
+    );
     return $objeto;
 }
 //inicializar el objeto

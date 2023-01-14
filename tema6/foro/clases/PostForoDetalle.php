@@ -19,13 +19,13 @@ class PostForoDetalle extends PostForo
         echo "</div>";
     }
     function pintarComentarios($pagina){
-        include("./accesoBD.php");
-        $consultaAux = $mbd->prepare("SELECT * FROM COMMENT WHERE ID_POST = :ID ORDER BY ID_COMMENT DESC LIMIT :PAGINA, 4");
-        $consultaAux->bindValue(":ID", $this->ID_post);
-        $consultaAux->bindValue(":PAGINA", ($pagina*4), PDO::PARAM_INT);
-        $consultaAux->setFetchMode(PDO::FETCH_ASSOC);
-        $consultaAux->execute();
-        foreach ($consultaAux as $value) {
+        $DB=DWESBaseDatos::obtenerInstancia();
+        $DB->ejecuta(
+            "SELECT * FROM COMMENT WHERE ID_POST = ? ORDER BY ID_COMMENT DESC LIMIT ? , ?",
+            [$this->ID_post,  $pagina*DWESBaseDatos::PAGINACION, DWESBaseDatos::PAGINACION]
+        );
+        $consulta = $DB->obtenDatos();
+        foreach ($consulta as $value) {
             echo "<div class='comment'>";
             echo "<h4>Usuario: <a href='perfil.php?USERNAME=".$value["USERNAME"]."' >".$value["USERNAME"]."</a></h4>";
             echo "<p>".$value["CONTENIDO"]."</p>";
@@ -33,12 +33,11 @@ class PostForoDetalle extends PostForo
         }
     }
     function insertarComentario($contenido, $username){
-        include("./accesoBD.php");
-        $inserccion = $mbd->prepare("INSERT INTO COMMENT(ID_POST, CONTENIDO, USERNAME) VALUES(:ID_POST, :CONTENIDO, :USERNAME)");
-        $inserccion->bindValue(":ID_POST", $this->ID_post);
-        $inserccion->bindValue(":CONTENIDO", $contenido);
-        $inserccion->bindValue(":USERNAME", $username);
-        $inserccion->execute();
+        $DB=DWESBaseDatos::obtenerInstancia();
+        $DB->ejecuta(
+            "INSERT INTO COMMENT(ID_POST, CONTENIDO, USERNAME) VALUES(?, ?, ?)",
+            [$this->ID_post, $contenido, $username]
+        );
     }
 }
 

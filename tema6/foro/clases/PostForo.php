@@ -11,14 +11,15 @@ abstract class PostForo
     }
     abstract function pintarObjetos();
     function contarNumeros($id){
-        include("./accesoBD.php");
-        $contarNumeros = $mbd->prepare("SELECT COUNT(*) as RESULTADO FROM COMMENT WHERE ID_POST = :ID");
-        $contarNumeros->bindValue(":ID", $id);
-        $contarNumeros->setFetchMode(PDO::FETCH_ASSOC);
-        $contarNumeros->execute();
-        $contarNumeros = $contarNumeros->fetch();
+        $DB= DWESBaseDatos::obtenerInstancia();
+        $DB->ejecuta(
+            "SELECT COUNT(*) as RESULTADO FROM COMMENT WHERE ID_POST = ?",
+            $id
+        );
+        $contarNumeros = $DB->obtenDatos()[0];
         return $contarNumeros["RESULTADO"];
     }
+    
 }
 
 ?>

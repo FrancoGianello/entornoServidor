@@ -1,8 +1,6 @@
 <?php
-session_start();
 require("./src/init.php");
 //variable de session
-$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 
 //variable para el post
 $user ="";

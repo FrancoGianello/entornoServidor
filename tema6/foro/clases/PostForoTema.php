@@ -15,13 +15,11 @@ class PostForoTema extends PostForo
             echo "</div>";
     }
     function insertarPost($tema){
-        include("./accesoBD.php");
-        $inserccion = $mbd->prepare("INSERT INTO POST(TEMA_NOMBRE, USERNAME, TITULO, CONTENIDO) VALUES(:TEMA_NOMBRE, :USERNAME, :TITULO, :CONTENIDO)");
-        $inserccion->bindValue(":TEMA_NOMBRE", $tema);
-        $inserccion->bindValue(":USERNAME", $this->username);
-        $inserccion->bindValue(":TITULO", $this->titulo);
-        $inserccion->bindValue(":CONTENIDO", $this->contenido);
-        $inserccion->execute();
+        $DB=DWESBaseDatos::obtenerInstancia(); 
+        $DB->ejecuta(
+            "INSERT INTO POST(TEMA_NOMBRE, USERNAME, TITULO, CONTENIDO) VALUES(?,?,?,?)",
+            [$tema, $this->username, $this->titulo, $this->contenido]
+        );
     }
 }
 

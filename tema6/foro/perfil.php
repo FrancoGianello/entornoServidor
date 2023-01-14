@@ -1,10 +1,8 @@
 <?php
-session_start();
 require("./src/init.php");
 include("./clases/PostForo.php");
 include("./clases/PostForoPerfil.php");
 
-$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 $perfil ="";
 $pagina=(isset($_GET["PAGINA"]))?$_GET["PAGINA"]:0;
 
@@ -15,17 +13,16 @@ if(isset($_GET["USERNAME"])&& $_GET["USERNAME"]!=""){
     die();
 }
 function mostrarPosts($perfil, $pagina){
-    require("./accesoBD.php");
-    $consulta = $mbd->prepare("SELECT * FROM POST WHERE USERNAME=:USERNAME ORDER BY ID_POST DESC LIMIT :PAGINA, 4");
-    $consulta->bindValue(":USERNAME", $perfil);
-    $consulta->bindValue(":PAGINA", ($pagina*4), PDO::PARAM_INT);
-    $consulta->execute();
-    $cadena="";
+    $DB=DWESBaseDatos::obtenerInstancia();
+    $DB->ejecuta(
+        "SELECT * FROM POST WHERE USERNAME=? ORDER BY ID_POST DESC LIMIT ?, ?",
+        [$perfil, $pagina*DWESBaseDatos::PAGINACION, DWESBaseDatos::PAGINACION]
+    );
+    $consulta = $DB->obtenDatos();
     foreach ($consulta as $value) {
         $objeto = new PostForoPerfil($value["ID_POST"], $value["CONTENIDO"], $value["TITULO"], $value["TEMA_NOMBRE"]);
         $objeto->pintarObjetos();
     }
-    return $cadena;
 }
 function pintarBotones($perfil, $pagina){
     if($pagina!=0)

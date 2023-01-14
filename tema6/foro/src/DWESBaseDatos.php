@@ -14,7 +14,7 @@ class DWESBaseDatos {
     private $conexion = null;
     private $sentencia = null;
     private $executed = false;
-
+    const PAGINACION = 4;
     /*
       Patrón Singletone para poder usar la clase en proyectos más grandes
     */
@@ -86,8 +86,13 @@ class DWESBaseDatos {
         if($parametros != null && is_array($parametros[0])) {
             $parametros = $parametros[0]; // Si nos pasan un array lo usamos como parámetro
         }
-
-        $this->executed = $this->sentencia->execute($parametros);
+        foreach ($parametros as $key => $value) {
+          if(is_numeric($parametros[$key])) 
+          $this->sentencia->bindValue($key+1, $parametros[$key], PDO::PARAM_INT);
+          else 
+          $this->sentencia->bindValue($key+1, $parametros[$key]);
+        }
+        $this->executed = $this->sentencia->execute();
     }
 
     function obtenDatos(){

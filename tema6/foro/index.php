@@ -1,10 +1,8 @@
 <?php
-session_start();
 require("./src/init.php");
 
-$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
-
-function pintarTemas($DB){
+function pintarTemas(){
+    $DB=DWESBaseDatos::obtenerInstancia();
     $DB->ejecuta('SELECT * FROM TEMA');
     $consulta=$DB->obtenDatos();
     foreach ($consulta as $value){
@@ -35,7 +33,7 @@ $bienvenida = ($username!="")? $username:"ANONIMO";
         </header>
         <div class="temas">
             <?php 
-                pintarTemas($DB);
+                pintarTemas();
             ?>
         </div>
         <?php include("./navegador.php"); ?>

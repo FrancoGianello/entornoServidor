@@ -1,4 +1,7 @@
 <?php 
+
+session_start();
+$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 require("config.php");
 require("DWESBaseDatos.php");
 require("varPaginaAnterior.php");
@@ -10,4 +13,5 @@ $DB->inicializa(
     $CONFIG["db_user"],
     $CONFIG["db_pass"]
 );
+
 ?>

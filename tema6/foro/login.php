@@ -1,11 +1,7 @@
 <?php
-session_start();
-require("./accesoBD.php");
-include("./varPaginaAnterior.php");
-include("./funcionLimpiar.php");
+require("./src/init.php");
 //variable de session
-$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
-
+if( isset($username) &&$username!="") header("Location: perfil.php?username=".$username);
 //variable para el post
 $user="";
 $pass ="";
@@ -19,10 +15,12 @@ if(isset($_POST["submit"])){
         $pass = $_POST["pass"];
         $pass = clean_input($pass);
         //consulta con el usuario
-        $consulta = $mbd->prepare("SELECT * FROM USER WHERE USERNAME = :USERNAME");
-        $consulta->bindValue(":USERNAME", $user);
-        $consulta->execute();
-        $consulta = $consulta->fetch();
+        $DB=DWESBaseDatos::obtenerInstancia();
+        $DB->ejecuta(
+            "SELECT * FROM USER WHERE USERNAME = ?",
+            $user
+        );
+        $consulta = $DB->obtenDatos()[0];
         if($consulta!=""){
             if(password_verify($pass, $consulta['PASS'])){
                 $_SESSION["user"]=$user;
