@@ -1,9 +1,4 @@
-@import url(plantilla.css);
-*{
-    margin:0px;
-    padding:0px;
-    box-sizing:border-box;
-}
+@import url("plantilla.css");
 a{
     text-decoration: none;
     color:white;
@@ -53,10 +48,10 @@ header, .post>h2, .nav{
 .formulario>form{
     background-color: grey;
     width: 50%;
-    height: 50%;
+    height: 70%;
 }
 .titulos{
-    font-size: 40px;
+    font-size: 30px;
 }
 form>input{
     width: 40%;
@@ -65,4 +60,7 @@ form>input{
     margin-top: 15px;
     width: 100px;
     height: 40px;
+}
+.error{
+    color: rgb(206, 54, 54);
 }

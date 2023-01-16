@@ -1,9 +1,4 @@
-@import url(plantilla.css);
-*{
-    margin:0px;
-    padding:0px;
-    box-sizing:border-box;
-}
+@import url("plantilla.css");
 a{
     text-decoration:none;
     color:white;

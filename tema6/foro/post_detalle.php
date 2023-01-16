@@ -86,7 +86,7 @@ function pintarBotones($id, $pagina){
                     <?php if($username!="" && isset($username)){ ?>
                         <form method="post">
                             Contenido
-                            <textarea name="add_contenido" id="area" cols="20" rows="5" value="<?= $contenido?>"></textarea>
+                            <textarea maxlength="500" name="add_contenido" id="area" cols="20" rows="5" value="<?= $contenido?>"></textarea>
                             <input type="submit" value="enviar" name="submit">
                         </form>
                     <?php } else {?>
