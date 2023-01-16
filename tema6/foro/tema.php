@@ -45,11 +45,15 @@ if(isset($_POST["submit"])){
 }
 
 function pintarBotones($tema, $pagina){
+    $DB=DWESBaseDatos::obtenerInstancia();
+    $DB->ejecuta("SELECT COUNT(*) AS TOTAL FROM POST WHERE TEMA_NOMBRE = ?", $tema);
+    $consulta = $DB->obtenDatoUnico();
+    $paginaFinal= ceil($consulta["TOTAL"]/DWESBaseDatos::PAGINACION);
     if($pagina!=0)
     echo "<a class='botones ' href='./tema.php?TEMA_NOMBRE=".$tema ."&PAGINA=".($pagina-1)."' >&#60;</a>";
     else echo "<p></p>";
-    echo "<h3>Pagina ".($pagina+1)."</h3>";
-    if($pagina!=3)
+    echo "<h3>Pagina ".($pagina)."</h3>";
+    if($pagina+1<$paginaFinal)
     echo "<a class='botones ' href='./tema.php?TEMA_NOMBRE=".$tema ."&PAGINA=".($pagina+1)."' >&#62;</a>";
     else echo "<p></p>";
 }

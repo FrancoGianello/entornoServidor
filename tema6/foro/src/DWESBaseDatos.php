@@ -98,6 +98,10 @@ class DWESBaseDatos {
     function obtenDatos(){
         return $this->sentencia->fetchAll();
     }
+    
+    function obtenDatoUnico(){
+      return $this->sentencia->fetch();
+    }
 
     function getLastId(){
         return $this->conexion->lastInsertId();

@@ -1,3 +1,4 @@
+@import url(plantilla.css);
 *{
     margin:0px;
     padding:0px;
@@ -16,7 +17,7 @@ a:hover{
     width:100vw;
     display:grid;
     grid-template-rows:1fr 10fr 1fr;
-    background-color: rgb(100, 176, 149);
+    background-color: rgb(226, 226, 226);
 }
 header{
     border-bottom:1px solid black;

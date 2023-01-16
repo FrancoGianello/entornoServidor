@@ -20,7 +20,7 @@ if(isset($_POST["submit"])){
             "SELECT * FROM USER WHERE USERNAME = ?",
             $user
         );
-        $consulta = $DB->obtenDatos()[0];
+        $consulta = $DB->obtenDatoUnico();
         if($consulta!=""){
             if(password_verify($pass, $consulta['PASS'])){
                 $_SESSION["user"]=$user;

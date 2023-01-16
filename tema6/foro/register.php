@@ -14,16 +14,17 @@ if(isset($_POST["submit"])){
         $pass = $_POST["pass"];
         $pass = clean_input($pass);
         //consulta con el usuario
-        $consulta = $mbd->prepare("SELECT * FROM USER WHERE USERNAME = :USERNAME");
-        $consulta->bindValue(":USERNAME", $user);
-        $consulta->execute();
-        $consulta = $consulta->fetch();
+        $DB=DWESBaseDatos::obtenerInstancia();
+        $DB->ejecuta(
+            "SELECT * FROM USER WHERE USERNAME = ?",
+            $user
+        );
+        $consulta = $DB->obtenDatoUnico();
         if($consulta==""){
-            $insertar = $mbd->prepare('INSERT INTO USER (USERNAME, PASS) VALUES(:USER, :PASS)');
-            $insertar->bindParam(":USER", $user);
-            $insertar->bindParam(":PASS", password_hash($pass, PASSWORD_DEFAULT));
-            $insertar->execute();
-            session_start();
+            $DB->ejecuta(
+                'INSERT INTO USER (USERNAME, PASS) VALUES(?, ?)',
+                $user, password_hash($pass, PASSWORD_DEFAULT)
+            );
             $_SESSION["user"]=$user;
             header("Location: ".$paginaAnterior);
         }

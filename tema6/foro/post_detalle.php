@@ -17,7 +17,7 @@ function crearObjetoPost($id){
     $DB=DWESBaseDatos::obtenerInstancia();
     $DB->ejecuta("SELECT * FROM POST WHERE ID_POST = ?", $id);
     //de [0] porque es un fetchall, cambiar en otro momento
-    $consulta = $DB->obtenDatos()[0];
+    $consulta = $DB->obtenDatoUnico();
     $objeto = new PostForoDetalle(
         $consulta["ID_POST"], 
         $consulta["CONTENIDO"], 
@@ -41,11 +41,15 @@ if(isset($_POST["submit"])){
     }
 }
 function pintarBotones($id, $pagina){
+    $DB=DWESBaseDatos::obtenerInstancia();
+    $DB->ejecuta("SELECT COUNT(*) AS TOTAL FROM COMMENT WHERE ID_POST = ?", $id);
+    $consulta = $DB->obtenDatoUnico();
+    $paginaFinal= ceil($consulta["TOTAL"]/DWESBaseDatos::PAGINACION);
     if($pagina!=0)
     echo "<a class='botones ' href='./post_detalle.php?ID_POST=".$id ."&PAGINA=".($pagina-1)."' >&#60;</a>";
     else echo "<p></p>";
-    echo "<h3>Pagina ".($pagina+1)."</h3>";
-    if($pagina!=3)
+    echo "<h3>Pagina ".($pagina)."</h3>";
+    if($pagina+1<$paginaFinal)
     echo "<a class='botones ' href='./post_detalle.php?ID_POST=".$id ."&PAGINA=".($pagina+1)."' >&#62;</a>";
     else echo "<p></p>";
 }

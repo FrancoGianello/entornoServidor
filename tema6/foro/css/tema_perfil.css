@@ -1,3 +1,4 @@
+@import url(plantilla.css);
 *{
     margin:0px;
     padding:0px;
@@ -9,7 +10,7 @@
     max-width:100vw;
     display:grid;
     grid-template-rows:1fr 10fr 1fr;
-    background-color: rgb(100, 176, 149);
+    background-color: rgb(226, 226, 226);
     gap: 5px;
 }
 a{
@@ -56,7 +57,7 @@ header, .post>h2, .nav{
 }
 .post{
     border:1px solid black;
-    background-color: rgb(174, 171, 171);
+    background-color: rgb(142, 165, 167);
     width:100%;
 }
 .comment{
@@ -91,4 +92,11 @@ form{
 }
 .paginacion>h3{
     color: white;
+}
+.botones{
+    transition: all 0.1s ease-out;
+}
+.botones:hover{
+    background-color: rgb(157, 157, 157);
+    font-weight: bold;
 }
