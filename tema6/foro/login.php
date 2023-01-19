@@ -26,6 +26,29 @@ if(!count($listaError)>0 && isset($_POST["submit"])){
     if($consulta!=""){
         if(password_verify($pass, $consulta['PASS'])){
             $_SESSION["user"]=$user;
+            $_SESSION["id"]=$consulta["ID_USER"];
+             //si ha pedido recuerdame
+            if(isset($_POST["recuerdame"]) && $_POST["recuerdame"]=="on"){    
+            $token = bin2hex(random_bytes(32));
+            $DB->ejecuta(
+                "INSERT INTO TOKEN (ID_USER, VALOR) VALUES(?,?)",
+                $_SESSION["id"],
+                $token
+            );
+            setcookie(
+                "recuerdame",
+                $token,
+                [
+                    "expires"=>time() +(7*24*60*60),
+                    //"secure"=>true,
+                    "httponly"=>true
+                ]
+            );
+            //generar token
+            //guardar token
+            //cookie con token
+    
+            }
             header("Location: ".$paginaAnterior);
         }
         else 
@@ -60,6 +83,10 @@ if(!count($listaError)>0 && isset($_POST["submit"])){
                     <input type="password" name="pass" id="pass" value="<?= $pass?>">
                         <?php if(isset($listaError["pass"])) echo "<p class='error'>".$listaError["pass"]."</p>";?>
                         <?php if(isset($listaError["passVacio"]))echo "<p class='error'>".$listaError["passVacio"]."</p>";?>
+                    <div class="recuerdame">
+                        <input type="checkbox" name="recuerdame" id="recuerdame">
+                        <label for="recuerdame">Recuerdame</label>
+                    </div>
                     <input type="submit" class="submit" value="enviar" name="submit">
                 </form>
             </div>

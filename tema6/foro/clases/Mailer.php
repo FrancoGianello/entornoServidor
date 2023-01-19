@@ -11,7 +11,8 @@ class Mailer
         global $CONFIG;
         $mail = new PHPMailer(true);
         try {
-            //Server settings                 //Enable verbose debug output
+            //Server settings                
+                                                                         //Enable verbose debug output
             $mail->isSMTP();                                            //Send using SMTP
             $mail->Host       = 'smtp.educa.madrid.org';                     //Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   //Enable SMTP authentication

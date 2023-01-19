@@ -1,7 +1,7 @@
 <?php 
 
 session_start();
-$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
+
 require("config.php");
 
 require("./vendor/autoload.php");
@@ -17,5 +17,6 @@ $DB->inicializa(
     $CONFIG["db_user"],
     $CONFIG["db_pass"]
 );
-
+require("comprobarRecuerdame.php");
+$username = (isset($_SESSION["user"]))? $_SESSION["user"]:"";
 ?>

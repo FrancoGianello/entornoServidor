@@ -15,6 +15,7 @@ class DWESBaseDatos {
     private $sentencia = null;
     private $executed = false;
     const PAGINACION = 4;
+    const LONGTOKEN = 64;
     /*
       Patrón Singletone para poder usar la clase en proyectos más grandes
     */

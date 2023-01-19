@@ -37,6 +37,14 @@ function pintarBotones($perfil, $pagina){
     echo "<a class='botones ' href='./perfil.php?USERNAME=".$perfil ."&PAGINA=".($pagina+1)."' >&#62;</a>";
     else echo "<p></p>";
 }
+function pintarBiografia($perfil){
+    $DB=DWESBaseDatos::obtenerInstancia();
+    $DB->ejecuta("SELECT PFP, DESCRIPCION FROM USER WHERE USERNAME = ?", $perfil);
+    $consulta = $DB->obtenDatoUnico();
+    echo "<h1>".$perfil."</h1>";
+    echo "<img src='".$consulta['PFP']."' alt='error'>";
+    echo "<p> ".$consulta["DESCRIPCION"]."</p>";
+}
 
 ?>
 <!DOCTYPE html>
@@ -47,14 +55,29 @@ function pintarBotones($perfil, $pagina){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/tema_perfil.css">
+    <style>
+        .biografia{
+            background-color:grey;
+        }
+        .posts{
+            width:60%;
+            margin:0 auto;
+            display: grid;
+            grid-template-rows: 30% 70%;
+            gap:3px;
+        }
+    </style>
 </head>
 <body>
     <main class="main">
         <header>
-            <?="<h1>".$perfil."</h1>";?>
+            <h1>Perfil</h1>
         </header>
         <div class="posts">
-            <div class="contenedor">
+            <div class="post biografia">
+                <?php pintarBiografia($perfil);?>
+            </div>
+            <div class="posts--contenedor">
                 <?php 
                     mostrarPosts($perfil, $pagina);
                 ?>

@@ -73,7 +73,7 @@ function pintarBotones($tema, $pagina){
             <?="<h1>".$tema."</h1>";?>
         </header>
         <div class="posts">
-            <div class="contenedor">
+            <div class="posts--contenedor">
                 <?php 
                     mostrarPosts($tema, $pagina);
                 ?>

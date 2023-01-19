@@ -19,7 +19,9 @@
     $resultado->setFetchMode(PDO::FETCH_ASSOC);
     $resultado->execute();
 
-
+    foreach ($variable as $key => $value) {
+        # code...
+    }
     function comprobarSiIdExiste($mbd){
         $resultadoAux = $mbd->query('SELECT * FROM Ciclistas');
         $resultadoAux->setFetchMode(PDO::FETCH_ASSOC);

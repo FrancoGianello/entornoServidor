@@ -35,7 +35,7 @@ if(!count($listaError)>0 && isset($_POST["submit"])){
                 "Bienvenido a gaming town",
                 "Population: ++1 OHHHHHHHHH YESS" 
             );
-            // header("Location: ".$paginaAnterior);
+            header("Location: ".$paginaAnterior);
         }
     }
     else  
