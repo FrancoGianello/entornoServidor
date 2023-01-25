@@ -1,12 +1,10 @@
 <?php 
-
 session_start();
 
 require("config.php");
 
 require("./vendor/autoload.php");
 require("./clases/Mailer.php");
-
 
 require("DWESBaseDatos.php");
 require("varPaginaAnterior.php");

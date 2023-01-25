@@ -63,6 +63,7 @@ header, .post>h2, .nav{
 .comment{
     background-color: cadetblue;
     border: 1px solid black;
+    margin-top: 2px;
 }
 form{
     display:flex;
@@ -99,4 +100,41 @@ form{
 .botones:hover{
     background-color: rgb(157, 157, 157);
     font-weight: bold;
+}
+.biografia{
+    gap: 8px;
+    display: grid;
+    grid-template-columns: 150px 1fr 150px;
+}
+.biografia>div{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+.biografia>img{
+    background-size: contain;
+    height:160px;
+    width:150px;
+}
+.edicion{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: stretch;
+}
+.fileUpload input {
+    color: transparent;
+    overflow: hidden;
+}
+.img-user{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-flow: row;
+    gap: 10px;
+}
+.img-user>img{
+    width: 40px;
 }
